@@ -24,20 +24,21 @@ def train():
 	Y = to_categorical(Y, 10)
 	Y_test = to_categorical(Y_test, 10)
 
+	print("testing")
+
 	# Train using classifier
 	model = tflearn.DNN(initialise_model.create_network('adam'), tensorboard_verbose=0, checkpoint_path='cifar10.tfl.ckpt')
 
 	#train the algorithm and take checkpoints every epoch
-	model.fit(X, Y, n_epoch=50, shuffle=True, validation_set=(X_test, Y_test), snapshot_epoch=True,
+	model.fit(X, Y, n_epoch=1, shuffle=True, validation_set=(X_test, Y_test), snapshot_epoch=True,
 	          show_metric=True, batch_size=122, run_id='cifar10_cnn')
 
 	#export the model
 	model.save('cifar.tflearn')
 
-def load(model):
+def load(model, image):
 	model.load('cifar.tflearn')
-	print("Done")
-	return model
+	print(model.predict([image]))
 
 if __name__ == "__load__":
 	load()
